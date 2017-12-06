@@ -29,6 +29,10 @@ class ServiceController extends Controller
 
         $services = $em->getRepository('HistoryBundle:Service')->findAll();
 
+//        $comments = $services->getComments()->getText();
+        dump($services);
+
+
         $newComment = new Comment();
         $commentForm = $this->createForm('HistoryBundle\Form\CommentType', $newComment);
         $commentForm->handleRequest($request);
@@ -82,6 +86,7 @@ class ServiceController extends Controller
     public function showAction(Service $service)
     {
         $deleteForm = $this->createDeleteForm($service);
+
 
         return $this->render('service/show.html.twig', array(
             'service' => $service,

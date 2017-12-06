@@ -6,6 +6,7 @@ use HistoryBundle\Entity\Comment;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Comment controller.
@@ -73,6 +74,18 @@ class CommentController extends Controller
         ));
     }
 
+
+    public function showForServiceAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $serviceObject = $em->getRepository('HistoryBundle:Service')->findOneById($id);
+
+
+        return $serviceObject;
+    }
+
+
+
     /**
      * Displays a form to edit an existing comment entity.
      *
@@ -133,4 +146,5 @@ class CommentController extends Controller
             ->getForm()
         ;
     }
+
 }
