@@ -5,7 +5,11 @@ namespace HistoryBundle\Controller;
 use HistoryBundle\Entity\Service;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use HistoryBundle\Form\CommentType;
+use HistoryBundle\Entity\Comment;
+use HistoryBundle\Controller\CommentController;
 
 /**
  * Service controller.
@@ -18,16 +22,28 @@ class ServiceController extends Controller
      * Lists all service entities.
      *
      * @Route("/", name="service_index")
-     * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $services = $em->getRepository('HistoryBundle:Service')->findAll();
 
+        $newComment = new Comment();
+        $commentForm = $this->createForm('HistoryBundle\Form\CommentType', $newComment);
+        $commentForm->handleRequest($request);
+
+        if ($commentForm->isSubmitted()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($newComment);
+            $em->flush();
+
+            return $this->redirectToRoute('service_index');
+        }
+
+
         return $this->render('service/index.html.twig', array(
-            'services' => $services,
+            'services' => $services, 'commentForm' => $commentForm->createView()
         ));
     }
 

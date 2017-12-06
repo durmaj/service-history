@@ -275,4 +275,9 @@ class Service
     {
         return $this->comments;
     }
+
+    public function __toString()
+    {
+        return $this->getDescription();
+    }
 }

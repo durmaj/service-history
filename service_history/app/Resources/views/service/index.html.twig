@@ -3,7 +3,7 @@
 {% block body %}
     <h1>Services list</h1>
 
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
@@ -11,6 +11,7 @@
                 <th>Cost</th>
                 <th>Date</th>
                 <th>Mileage</th>
+                <th>Comment</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -22,6 +23,7 @@
                 <td>{{ service.cost }}</td>
                 <td>{% if service.date %}{{ service.date|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ service.mileage }}</td>
+                <td>Comment will be there</td>
                 <td>
                     <ul>
                         <li>
@@ -36,6 +38,12 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <h4>New comment</h4>
+    {{ form_start(commentForm) }}
+    {{ form_widget(commentForm.text) }}
+    <input type="submit" value="Create" />
+    {{ form_end(commentForm) }}
 
     <ul>
         <li>
