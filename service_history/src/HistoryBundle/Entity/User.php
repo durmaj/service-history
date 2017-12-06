@@ -4,7 +4,7 @@ namespace HistoryBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
@@ -23,6 +23,16 @@ class User extends BaseUser
      */
     protected $id;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="uservin", type="string", length=20, unique=true)
+     *
+     * @Assert\NotBlank(message="Please enter your vin.", groups={"Registration", "Profile"})
+     *
+     */
+    private $uservin;
+
 
     public function __construct()
     {
@@ -40,6 +50,21 @@ class User extends BaseUser
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
+    public function getUservin()
+    {
+        return $this->uservin;
+    }
+
+    /**
+     * @param string $uservin
+     */
+    public function setUservin($uservin)
+    {
+        $this->uservin = $uservin;
+    }
 
 }
 

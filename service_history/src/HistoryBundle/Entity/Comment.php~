@@ -71,28 +71,5 @@ class Comment
     {
         return $this->text;
     }
-
-    /**
-     * Set service
-     *
-     * @param \HistoryBundle\Entity\Service $service
-     *
-     * @return Comment
-     */
-    public function setService(\HistoryBundle\Entity\Service $service = null)
-    {
-        $this->service = $service;
-
-        return $this;
-    }
-
-    /**
-     * Get service
-     *
-     * @return \HistoryBundle\Entity\Service
-     */
-    public function getService()
-    {
-        return $this->service;
-    }
 }
+

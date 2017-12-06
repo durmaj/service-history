@@ -165,28 +165,5 @@ class Car
     {
         return $this->regPlate;
     }
-
-    /**
-     * Set user
-     *
-     * @param \HistoryBundle\Entity\User $user
-     *
-     * @return Car
-     */
-    public function setUser(\HistoryBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \HistoryBundle\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
 }
+
