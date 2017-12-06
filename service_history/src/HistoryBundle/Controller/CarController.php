@@ -17,14 +17,18 @@ class CarController extends Controller
     /**
      * Lists all car entities.
      *
-     * @Route("/", name="car_index")
+     * @Route("/car/", name="car_index")
      * @Method("GET")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $cars = $em->getRepository('HistoryBundle:Car')->findAll();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        dump($user);
+
+        $cars = $em->getRepository('HistoryBundle:Car')->findByUser($user);
 
         return $this->render('car/index.html.twig', array(
             'cars' => $cars,

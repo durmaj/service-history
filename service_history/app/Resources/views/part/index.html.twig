@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Parts list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Partno</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for part in parts %}
+            <tr>
+                <td><a href="{{ path('part_show', { 'id': part.id }) }}">{{ part.id }}</a></td>
+                <td>{{ part.name }}</td>
+                <td>{{ part.partNo }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('part_show', { 'id': part.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('part_edit', { 'id': part.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('part_new') }}">Create a new part</a>
+        </li>
+    </ul>
+{% endblock %}
