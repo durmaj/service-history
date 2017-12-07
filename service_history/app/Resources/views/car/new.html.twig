@@ -1,16 +1,30 @@
 {% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
 
 {% block body %}
-    <h1>Car creation</h1>
+    <h1>Add new car</h1>
 
     {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+
+        {{ form_label(form.brand) }}
+        {{ form_widget(form.brand) }}
+
+        {{ form_label(form.model) }}
+        {{ form_widget(form.model) }}
+
+        {{ form_label(form.regPlate) }}
+        {{ form_widget(form.regPlate) }}
+
+        {{ form_label(form.vin) }}
+        {{ form_widget(form.vin) }}
+
+    <br>
+
+    <input class="btn btn-primary" type="submit" value="Create">
     {{ form_end(form) }}
 
-    <ul>
-        <li>
+    <br>
             <a href="{{ path('car_index') }}">Back to the list</a>
-        </li>
-    </ul>
+
 {% endblock %}
