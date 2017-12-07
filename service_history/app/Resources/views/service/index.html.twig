@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Services list for: //car name will be there</h1>
+    <h1>Services list for all cars</h1>
 
 
     <table class="table">
@@ -20,7 +20,7 @@
         <tbody>
         {% for service in services %}
             <tr>
-                <td>Car will be there</td>
+                <td>{{ service.getCar() }}</td>
                 <td><a href="{{ path('service_show', { 'id': service.id }) }}">{{ service.description }}</a></td>
                 <td>Parts will be there</td>
                 <td>{{ service.cost }}</td>
@@ -44,11 +44,6 @@
         </tbody>
     </table>
 
-    <h4>New comment</h4>
-    {{ form_start(commentForm) }}
-    {{ form_widget(commentForm.text) }}
-    <input type="submit" value="Create" />
-    {{ form_end(commentForm) }}
 
     <ul>
         <li>

@@ -7,17 +7,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
 
-/**
- * Car controller.
- *
- * @Route("car")
- */
+
 class CarController extends Controller
 {
     /**
-     * Lists all car entities.
+     * Lists all car entities for user.
      *
-     * @Route("/car/", name="car_index")
+     * @Route("/", name="car_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -25,8 +21,6 @@ class CarController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $user = $this->get('security.token_storage')->getToken()->getUser();
-
-        dump($user);
 
         $cars = $em->getRepository('HistoryBundle:Car')->findByUser($user);
 

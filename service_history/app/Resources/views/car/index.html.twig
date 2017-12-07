@@ -3,25 +3,23 @@
 {% block body %}
     <h1>Cars list</h1>
 
-    <table>
+    <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Vin</th>
                 <th>Brand</th>
                 <th>Model</th>
                 <th>Regplate</th>
+                <th>Vin</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for car in cars %}
             <tr>
-                <td><a href="{{ path('car_show', { 'id': car.id }) }}">{{ car.id }}</a></td>
-                <td>{{ car.vin }}</td>
                 <td>{{ car.brand }}</td>
-                <td>{{ car.model }}</td>
+                <td><a href="{{ path('car_show', { 'id': car.id }) }}">{{ car.model }}</a></td>
                 <td>{{ car.regPlate }}</td>
+                <td>{{ car.vin }}</td>
                 <td>
                     <ul>
                         <li>
