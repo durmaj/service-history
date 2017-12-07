@@ -25,7 +25,7 @@
                 <td><a href="{{ path('service_show', { 'id': service.id }) }}">{{ service.description }}</a></td>
                 <td>Parts will be there</td>
                 <td>{{ service.cost }}</td>
-                <td>{% if service.date %}{{ service.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if service.date %}{{ service.date|date('d-m-Y') }}{% endif %}</td>
                 <td>{{ service.mileage }}</td>
                 <td>{% for comment in service.getComments() %}
                         <li>{{ comment.text }}</li>

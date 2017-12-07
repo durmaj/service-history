@@ -110,6 +110,7 @@ class ServiceController extends Controller
         return $this->render('service/new.html.twig', array(
             'service' => $service,
             'form' => $form->createView(),
+            'id' => $id
         ));
     }
 

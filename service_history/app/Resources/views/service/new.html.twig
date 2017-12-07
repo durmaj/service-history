@@ -21,12 +21,13 @@
             {{ form_label(form.cost) }}
             {{ form_widget(form.cost) }}
         </div>
+    <br>
         <input class="btn btn-primary" type="submit" value="Create">
         {{ form_end(form) }}
         <br>
 
     <br>
 
-    <a href="{{ path('service_index') }}">Back to the list</a>
+    <a href="{{ path('service_car', {'id': id }) }}">Back to the service history list</a>
 
 {% endblock %}

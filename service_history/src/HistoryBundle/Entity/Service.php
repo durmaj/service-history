@@ -37,6 +37,7 @@ class Service
     {
         $this->parts = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->date = new \DateTime();
     }
 
 
