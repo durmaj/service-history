@@ -1,20 +1,32 @@
 {% extends 'base.html.twig' %}
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
-{# {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %} #}
 
 {% block body %}
     <h1>Add new service entry</h1>
 
-    <form class="form-horizontal">
     {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
-    </form>
+        <div>
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description) }}
+            {{ form_label(form.parts) }}
+            {{ form_widget(form.parts) }}
+        </div>
+        <div>
+            {{ form_label(form.mileage) }}
+            {{ form_widget(form.mileage) }}
+            {{ form_label(form.date) }}
+            {{ form_widget(form.date) }}
+        </div>
+        <div>
+            {{ form_label(form.cost) }}
+            {{ form_widget(form.cost) }}
+        </div>
+        <input class="btn btn-primary" type="submit" value="Create">
+        {{ form_end(form) }}
+        <br>
 
-    <ul>
-        <li>
-            <a href="{{ path('service_index') }}">Back to the list</a>
-        </li>
-    </ul>
+    <br>
+
+    <a href="{{ path('service_index') }}">Back to the list</a>
+
 {% endblock %}

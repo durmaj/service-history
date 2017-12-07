@@ -94,10 +94,13 @@ class ServiceController extends Controller
         $service = new Service();
         $form = $this->createForm('HistoryBundle\Form\ServiceType', $service);
         $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+
+        $car = $em->getRepository('HistoryBundle:Car')->findOneById($id);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $service->setCar($this->findByCar($id));
-            $em = $this->getDoctrine()->getManager();
+            $service->setCar($car);
             $em->persist($service);
             $em->flush();
 
