@@ -17,7 +17,6 @@
                 <th>Date</th>
                 <th>Mileage</th>
                 <th>Comment</th>
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -31,26 +30,10 @@
                 <td>{% for comment in service.getComments() %}
                         <li>{{ comment.text }}</li>
                     {% endfor %}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('service_show', { 'id': service.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('service_edit', { 'id': service.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <h4>New comment</h4>
-    {{ form_start(commentForm) }}
-    {{ form_widget(commentForm.text) }}
-    <input type="submit" value="Create" />
-    {{ form_end(commentForm) }}
 
     {% endif %}
 

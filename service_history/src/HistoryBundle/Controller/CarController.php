@@ -42,6 +42,8 @@ class CarController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //setting the logged in user as car owner
+            $car->setUser($this->getUser());
             $em = $this->getDoctrine()->getManager();
             $em->persist($car);
             $em->flush();

@@ -11,7 +11,6 @@
                 <th>Regplate</th>
                 <th>Vin</th>
                 <th>Service history</th>
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -22,16 +21,6 @@
                 <td>{{ car.regPlate }}</td>
                 <td>{{ car.vin }}</td>
                 <td><a href="{{ path('service_car', { 'id': car.id }) }}">Show</a></td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('car_show', { 'id': car.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('car_edit', { 'id': car.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
             </tr>
         {% endfor %}
         </tbody>

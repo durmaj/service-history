@@ -42,7 +42,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('service_index') }}">Back to the list</a>
+            <a href="{{ path('service_car', { 'id': service.car.id }) }}">Back to the list</a>
         </li>
         <li>
             <a href="{{ path('service_edit', { 'id': service.id }) }}">Edit</a>
