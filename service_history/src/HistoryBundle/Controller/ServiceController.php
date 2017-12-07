@@ -50,6 +50,38 @@ class ServiceController extends Controller
     }
 
     /**
+     * Lists all service entities for a single car.
+     *
+     * @Route("/car/{id}", name="service_car")
+     */
+    public function servicesForOneCar(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $services = $em->getRepository('HistoryBundle:Service')->findByCar($id);
+
+
+        //new comment form
+        $newComment = new Comment();
+        $commentForm = $this->createForm('HistoryBundle\Form\CommentType', $newComment)->add('service');
+        $commentForm->handleRequest($request);
+
+        if ($commentForm->isSubmitted()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($newComment);
+            $em->flush();
+
+            return $this->redirectToRoute('service_car');
+        }
+
+
+        return $this->render('service/services_for_car.html.twig', array(
+            'services' => $services, 'commentForm' => $commentForm->createView()
+        ));
+    }
+
+
+    /**
      * Creates a new service entity.
      *
      * @Route("/new", name="service_new")
