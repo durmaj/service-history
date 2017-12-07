@@ -12,7 +12,7 @@
         <thead>
             <tr>
                 <th>Description</th>
-                <th>Parts</th>
+                {#<th>Parts</th>#}
                 <th>Cost</th>
                 <th>Date</th>
                 <th>Mileage</th>
@@ -23,7 +23,7 @@
         {% for service in services %}
             <tr>
                 <td><a href="{{ path('service_show', { 'id': service.id }) }}">{{ service.description }}</a></td>
-                <td>Parts will be there</td>
+                {#<td>Parts will be there</td>#}
                 <td>{{ service.cost }}</td>
                 <td>{% if service.date %}{{ service.date|date('d-m-Y') }}{% endif %}</td>
                 <td>{{ service.mileage }}</td>
@@ -40,6 +40,9 @@
     <ul>
         <li>
             <a href="{{ path('service_new', {'id': car }) }}">Create a new service</a>
+        </li>
+        <li>
+            <a href="{{ path('car_index') }}">Back to cars list</a>
         </li>
     </ul>
 {% endblock %}

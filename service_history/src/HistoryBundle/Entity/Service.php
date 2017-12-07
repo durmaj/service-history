@@ -22,11 +22,11 @@ class Service
      */
     private $car;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Part", mappedBy="services")
-     * @ORM\JoinTable(name="services_parts")
-     */
-    private $parts;
+//    /**
+//     * @ORM\ManyToMany(targetEntity="Part", mappedBy="service")
+//     * @ORM\JoinTable(name="service_parts")
+//     */
+//    private $parts;
 
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="service")
@@ -35,7 +35,7 @@ class Service
 
     public function __construct()
     {
-        $this->parts = new ArrayCollection();
+//        $this->parts = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->date = new \DateTime();
     }
@@ -209,39 +209,39 @@ class Service
         return $this->car;
     }
 
-    /**
-     * Add part
-     *
-     * @param \HistoryBundle\Entity\Part $part
-     *
-     * @return Service
-     */
-    public function addPart(\HistoryBundle\Entity\Part $part)
-    {
-        $this->parts[] = $part;
+//    /**
+//     * Add part
+//     *
+//     * @param \HistoryBundle\Entity\Part $part
+//     *
+//     * @return Service
+//     */
+//    public function addPart(\HistoryBundle\Entity\Part $part)
+//    {
+//        $this->parts[] = $part;
+//
+//        return $this;
+//    }
 
-        return $this;
-    }
+//    /**
+//     * Remove part
+//     *
+//     * @param \HistoryBundle\Entity\Part $part
+//     */
+//    public function removePart(\HistoryBundle\Entity\Part $part)
+//    {
+//        $this->parts->removeElement($part);
+//    }
 
-    /**
-     * Remove part
-     *
-     * @param \HistoryBundle\Entity\Part $part
-     */
-    public function removePart(\HistoryBundle\Entity\Part $part)
-    {
-        $this->parts->removeElement($part);
-    }
-
-    /**
-     * Get parts
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getParts()
-    {
-        return $this->parts;
-    }
+//    /**
+//     * Get parts
+//     *
+//     * @return \Doctrine\Common\Collections\Collection
+//     */
+//    public function getParts()
+//    {
+//        return $this->parts;
+//    }
 
     /**
      * Add comment

@@ -1,5 +1,6 @@
 <?php
 
+
 namespace HistoryBundle\Controller;
 
 use HistoryBundle\Entity\Service;
@@ -118,6 +119,7 @@ class ServiceController extends Controller
      * Finds and displays a service entity.
      *
      * @Route("/{id}", name="service_show")
+     * @Method({"GET", "POST"})
      */
     public function showAction(Service $service, Request $request)
     {
@@ -134,7 +136,7 @@ class ServiceController extends Controller
             $em->persist($newComment);
             $em->flush();
 
-            return $this->redirectToRoute('service_index');
+            return $this->redirectToRoute('service_show', array('id' => $service->getId()));
         }
 
 
@@ -154,6 +156,7 @@ class ServiceController extends Controller
     public function editAction(Request $request, Service $service)
     {
         $deleteForm = $this->createDeleteForm($service);
+
         $editForm = $this->createForm('HistoryBundle\Form\ServiceType', $service);
         $editForm->handleRequest($request);
 
@@ -165,7 +168,7 @@ class ServiceController extends Controller
 
         return $this->render('service/edit.html.twig', array(
             'service' => $service,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }

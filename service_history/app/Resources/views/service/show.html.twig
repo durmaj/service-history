@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+
 {% block body %}
     <h1>Service</h1>
 
@@ -34,11 +35,19 @@
         </tbody>
     </table>
 
+    {{ form_start(delete_form) }}
+    <input type="submit" class="btn btn-primary" value="Delete">
+    {{ form_end(delete_form) }}
+    <br>
+
     <h4>New comment</h4>
+
     {{ form_start(commentForm) }}
     {{ form_widget(commentForm.text) }}
-    <input type="submit" value="Create" />
+
+    <input type="submit" class="btn btn-primary" value="Save comment" />
     {{ form_end(commentForm) }}
+
 
     <ul>
         <li>
@@ -47,10 +56,6 @@
         <li>
             <a href="{{ path('service_edit', { 'id': service.id }) }}">Edit</a>
         </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
+
     </ul>
 {% endblock %}
