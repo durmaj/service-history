@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
+    {% if services is empty %}
+        <h1>No service history for this car</h1>
+    {% else %}
     <h1>Services list for: {{ services[0].getCar() }} </h1>
 
 
@@ -47,6 +51,8 @@
     {{ form_widget(commentForm.text) }}
     <input type="submit" value="Create" />
     {{ form_end(commentForm) }}
+
+    {% endif %}
 
     <ul>
         <li>
