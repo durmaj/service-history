@@ -76,7 +76,9 @@ class ServiceController extends Controller
 
 
         return $this->render('service/services_for_car.html.twig', array(
-            'services' => $services, 'commentForm' => $commentForm->createView()
+            'services' => $services,
+            'commentForm' => $commentForm->createView(),
+            'car' => $id
         ));
     }
 
@@ -84,16 +86,17 @@ class ServiceController extends Controller
     /**
      * Creates a new service entity.
      *
-     * @Route("/new", name="service_new")
+     * @Route("/new/{id}", name="service_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, $id)
     {
         $service = new Service();
         $form = $this->createForm('HistoryBundle\Form\ServiceType', $service);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $service->setCar($this->findByCar($id));
             $em = $this->getDoctrine()->getManager();
             $em->persist($service);
             $em->flush();

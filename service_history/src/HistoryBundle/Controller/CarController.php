@@ -8,6 +8,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
 
 
+/**
+ * Car controller.
+ *
+ * @Route("car")
+ */
 class CarController extends Controller
 {
     /**

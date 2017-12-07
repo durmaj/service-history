@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>{% block title %}Online Service History{% endblock %}</title>
+    <title>{% block title %}Online Car Service History{% endblock %}</title>
     {% block stylesheets %}{% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     <style>
@@ -25,13 +25,15 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Online service history</a>
+            <a class="navbar-brand" href="/">Online Car Service History</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="#about">About</a></li>
                 <li><a href="mailto:biuro@vanosauto.pl">Contact</a></li>
+                {% if is_granted('ROLE_USER') %}
                 <li><a href="/logout">Logout</a></li>
+                {% endif %}
             </ul>
         </div><!--/.nav-collapse -->
     </div>

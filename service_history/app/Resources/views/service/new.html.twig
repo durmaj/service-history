@@ -1,12 +1,16 @@
 {% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+{# {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %} #}
 
 {% block body %}
-    <h1>Service creation</h1>
+    <h1>Add new service entry</h1>
 
+    <form class="form-horizontal">
     {{ form_start(form) }}
         {{ form_widget(form) }}
         <input type="submit" value="Create" />
     {{ form_end(form) }}
+    </form>
 
     <ul>
         <li>
