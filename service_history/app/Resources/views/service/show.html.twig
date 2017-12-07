@@ -3,7 +3,7 @@
 {% block body %}
     <h1>Service</h1>
 
-    <table>
+    <table class="table">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -25,8 +25,20 @@
                 <th>Mileage</th>
                 <td>{{ service.mileage }}</td>
             </tr>
+            <tr>
+                <th>Comments</th>
+                <td>{% for comment in service.getComments() %}
+                        <li>{{ comment.text }}</li>
+                    {% endfor %}</td>
+            </tr>
         </tbody>
     </table>
+
+    <h4>New comment</h4>
+    {{ form_start(commentForm) }}
+    {{ form_widget(commentForm.text) }}
+    <input type="submit" value="Create" />
+    {{ form_end(commentForm) }}
 
     <ul>
         <li>

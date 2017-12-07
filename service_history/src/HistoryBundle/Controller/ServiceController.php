@@ -29,12 +29,10 @@ class ServiceController extends Controller
 
         $services = $em->getRepository('HistoryBundle:Service')->findAll();
 
-//        $comments = $services->getComments()->getText();
-        dump($services);
 
-
+        //new comment form
         $newComment = new Comment();
-        $commentForm = $this->createForm('HistoryBundle\Form\CommentType', $newComment);
+        $commentForm = $this->createForm('HistoryBundle\Form\CommentType', $newComment)->add('service');
         $commentForm->handleRequest($request);
 
         if ($commentForm->isSubmitted()) {
@@ -81,16 +79,30 @@ class ServiceController extends Controller
      * Finds and displays a service entity.
      *
      * @Route("/{id}", name="service_show")
-     * @Method("GET")
      */
-    public function showAction(Service $service)
+    public function showAction(Service $service, Request $request)
     {
         $deleteForm = $this->createDeleteForm($service);
+
+        //new comment form
+        $newComment = new Comment();
+        $newComment->setService($service);
+        $commentForm = $this->createForm('HistoryBundle\Form\CommentType', $newComment);
+        $commentForm->handleRequest($request);
+
+        if ($commentForm->isSubmitted()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($newComment);
+            $em->flush();
+
+            return $this->redirectToRoute('service_index');
+        }
 
 
         return $this->render('service/show.html.twig', array(
             'service' => $service,
             'delete_form' => $deleteForm->createView(),
+            'commentForm' => $commentForm->createView(),
         ));
     }
 

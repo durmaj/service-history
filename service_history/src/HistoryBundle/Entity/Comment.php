@@ -18,6 +18,7 @@ class Comment
 {
     /**
      * @ORM\ManyToOne(targetEntity="Service", inversedBy="comments")
+     *
      */
     private $service;
 

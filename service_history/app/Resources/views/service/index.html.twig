@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Services list</h1>
+    <h1>Services list for: //car name will be there</h1>
+
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Description</th>
+                <th>Parts</th>
                 <th>Cost</th>
                 <th>Date</th>
                 <th>Mileage</th>
@@ -18,12 +19,14 @@
         <tbody>
         {% for service in services %}
             <tr>
-                <td><a href="{{ path('service_show', { 'id': service.id }) }}">{{ service.id }}</a></td>
-                <td>{{ service.description }}</td>
+                <td><a href="{{ path('service_show', { 'id': service.id }) }}">{{ service.description }}</a></td>
+                <td>Parts will be there</td>
                 <td>{{ service.cost }}</td>
                 <td>{% if service.date %}{{ service.date|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ service.mileage }}</td>
-                <td>Comment will be there</td>
+                <td>{% for comment in service.getComments() %}
+                        <li>{{ comment.text }}</li>
+                    {% endfor %}</td>
                 <td>
                     <ul>
                         <li>
