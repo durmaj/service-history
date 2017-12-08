@@ -13,7 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
  * Comment controller.
  *
  * @Route("comment")
- * @Security("has_role('ROLE_ADMIN')")
+ * @Security("has_role('ROLE_USER')")
  */
 class CommentController extends Controller
 {
@@ -25,13 +25,19 @@ class CommentController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        if ($this->isGranted('ROLE_ADMIN')) {
 
-        $comments = $em->getRepository('HistoryBundle:Comment')->findAll();
 
-        return $this->render('comment/index.html.twig', array(
-            'comments' => $comments,
-        ));
+            $em = $this->getDoctrine()->getManager();
+
+            $comments = $em->getRepository('HistoryBundle:Comment')->findAll();
+
+            return $this->render('comment/index.html.twig', array(
+                'comments' => $comments,
+            ));
+        } else {
+            return $this->redirectToRoute('car_index');
+        }
     }
 
     /**
@@ -130,7 +136,7 @@ class CommentController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('comment_index');
+        return $this->redirectToRoute('service_show', ['id' => $comment->getService()->getId()]);
     }
 
     /**

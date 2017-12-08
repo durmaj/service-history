@@ -23,15 +23,20 @@ class CarController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        if ($this->isGranted('ROLE_USER')) {
 
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+            $em = $this->getDoctrine()->getManager();
 
-        $cars = $em->getRepository('HistoryBundle:Car')->findByUser($user);
+            $user = $this->get('security.token_storage')->getToken()->getUser();
 
-        return $this->render('car/index.html.twig', array(
-            'cars' => $cars,
-        ));
+            $cars = $em->getRepository('HistoryBundle:Car')->findByUser($user);
+
+            return $this->render('car/index.html.twig', array(
+                'cars' => $cars,
+            ));
+        } else {
+            return $this->redirectToRoute('history_default_index');
+        }
     }
 
     /**

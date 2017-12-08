@@ -27,7 +27,7 @@
     <a href="{{ path('car_edit', { 'id': car.id }) }}" class="btn btn-info" role="button">Edit</a>
     <br>
     {{ form_start(delete_form) }}
-    <input type="submit" class="btn btn-primary" value="Delete">
+    <input type="submit" class="btn btn-danger" value="Delete">
     {{ form_end(delete_form) }}
     <br>
     <a href="{{ path('car_index') }}">Back to the list</a>

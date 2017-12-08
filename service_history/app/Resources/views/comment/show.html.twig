@@ -1,31 +1,21 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Comment</h1>
+    <h3>Comment</h3>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ comment.id }}</td>
-            </tr>
-            <tr>
-                <th>Text</th>
-                <td>{{ comment.text }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <p>{{ comment.text }}</p>
+
 
     <ul>
         <li>
-            <a href="{{ path('comment_index') }}">Back to the list</a>
+            <a href="{{ path('comment_index') }}" class="btn btn-info" role="button">Back to the list</a>
         </li>
         <li>
-            <a href="{{ path('comment_edit', { 'id': comment.id }) }}">Edit</a>
+            <a href="{{ path('comment_edit', { 'id': comment.id }) }}" class="btn btn-info" role="button">Edit</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <input type="submit" class="btn btn-primary" value="Delete">
             {{ form_end(delete_form) }}
         </li>
     </ul>
