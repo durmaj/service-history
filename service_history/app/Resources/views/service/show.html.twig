@@ -30,6 +30,8 @@
             </tr>
         </tbody>
     </table>
+    <a href="{{ path('service_edit', { 'id': service.id }) }}" class="btn btn-info" role="button">Edit</a>
+    <br>
 
     {{ form_start(delete_form) }}
     <input type="submit" class="btn btn-primary" value="Delete">
@@ -43,15 +45,7 @@
 
     <input type="submit" class="btn btn-primary" value="Save comment" />
     {{ form_end(commentForm) }}
+    <br>
+    <a href="{{ path('service_car', { 'id': service.car.id }) }}">Back to the list</a>
 
-
-    <ul>
-        <li>
-            <a href="{{ path('service_car', { 'id': service.car.id }) }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('service_edit', { 'id': service.id }) }}">Edit</a>
-        </li>
-
-    </ul>
 {% endblock %}
