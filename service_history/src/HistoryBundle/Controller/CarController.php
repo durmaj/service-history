@@ -78,7 +78,6 @@ class CarController extends Controller
 
         if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser()) {
 
-
             $deleteForm = $this->createDeleteForm($car);
 
             return $this->render('car/show.html.twig', array(
@@ -86,7 +85,7 @@ class CarController extends Controller
                 'delete_form' => $deleteForm->createView(),
             ));
 
-        }else {
+        } else {
             return $this->redirectToRoute('history_default_index');
         }
     }
@@ -99,7 +98,6 @@ class CarController extends Controller
      */
     public function editAction(Request $request, Car $car)
     {
-
         if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser()) {
 
             $deleteForm = $this->createDeleteForm($car);

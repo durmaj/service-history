@@ -105,27 +105,32 @@ class ServiceController extends Controller
      */
     public function newAction(Request $request, $id)
     {
-        $service = new Service();
-        $form = $this->createForm('HistoryBundle\Form\ServiceType', $service);
-        $form->handleRequest($request);
-        $em = $this->getDoctrine()->getManager();
+        if ($this->isGranted('ROLE_USER')) {
 
-        $car = $em->getRepository('HistoryBundle:Car')->findOneById($id);
+            $service = new Service();
+            $form = $this->createForm('HistoryBundle\Form\ServiceType', $service);
+            $form->handleRequest($request);
+            $em = $this->getDoctrine()->getManager();
+
+            $car = $em->getRepository('HistoryBundle:Car')->findOneById($id);
 
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $service->setCar($car);
-            $em->persist($service);
-            $em->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $service->setCar($car);
+                $em->persist($service);
+                $em->flush();
 
-            return $this->redirectToRoute('service_show', array('id' => $service->getId()));
+                return $this->redirectToRoute('service_show', array('id' => $service->getId()));
+            }
+
+            return $this->render('service/new.html.twig', array(
+                'service' => $service,
+                'form' => $form->createView(),
+                'id' => $id
+            ));
+        } else {
+            return $this->redirectToRoute('history_default_index');
         }
-
-        return $this->render('service/new.html.twig', array(
-            'service' => $service,
-            'form' => $form->createView(),
-            'id' => $id
-        ));
     }
 
     /**
@@ -136,28 +141,36 @@ class ServiceController extends Controller
      */
     public function showAction(Service $service, Request $request)
     {
-        $deleteForm = $this->createDeleteForm($service);
 
-        //new comment form
-        $newComment = new Comment();
-        $newComment->setService($service);
-        $commentForm = $this->createForm('HistoryBundle\Form\CommentType', $newComment);
-        $commentForm->handleRequest($request);
+        $car = $service->getCar();
 
-        if ($commentForm->isSubmitted()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($newComment);
-            $em->flush();
+        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser()) {
 
-            return $this->redirectToRoute('service_show', array('id' => $service->getId()));
+            $deleteForm = $this->createDeleteForm($service);
+
+            //new comment form
+            $newComment = new Comment();
+            $newComment->setService($service);
+            $commentForm = $this->createForm('HistoryBundle\Form\CommentType', $newComment);
+            $commentForm->handleRequest($request);
+
+            if ($commentForm->isSubmitted()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($newComment);
+                $em->flush();
+
+                return $this->redirectToRoute('service_show', array('id' => $service->getId()));
+            }
+
+
+            return $this->render('service/show.html.twig', array(
+                'service' => $service,
+                'delete_form' => $deleteForm->createView(),
+                'commentForm' => $commentForm->createView(),
+            ));
+        } else {
+            return $this->redirectToRoute('history_default_index');
         }
-
-
-        return $this->render('service/show.html.twig', array(
-            'service' => $service,
-            'delete_form' => $deleteForm->createView(),
-            'commentForm' => $commentForm->createView(),
-        ));
     }
 
     /**
@@ -168,22 +181,29 @@ class ServiceController extends Controller
      */
     public function editAction(Request $request, Service $service)
     {
-        $deleteForm = $this->createDeleteForm($service);
+        $car = $service->getCar();
 
-        $editForm = $this->createForm('HistoryBundle\Form\ServiceType', $service);
-        $editForm->handleRequest($request);
+        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser()) {
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $deleteForm = $this->createDeleteForm($service);
 
-            return $this->redirectToRoute('service_edit', array('id' => $service->getId()));
+            $editForm = $this->createForm('HistoryBundle\Form\ServiceType', $service);
+            $editForm->handleRequest($request);
+
+            if ($editForm->isSubmitted() && $editForm->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+
+                return $this->redirectToRoute('service_edit', array('id' => $service->getId()));
+            }
+
+            return $this->render('service/edit.html.twig', array(
+                'service' => $service,
+                'form' => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),
+            ));
+        } else {
+            return $this->redirectToRoute('history_default_index');
         }
-
-        return $this->render('service/edit.html.twig', array(
-            'service' => $service,
-            'form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
     }
 
     /**
@@ -194,16 +214,22 @@ class ServiceController extends Controller
      */
     public function deleteAction(Request $request, Service $service)
     {
-        $form = $this->createDeleteForm($service);
-        $form->handleRequest($request);
+        $car = $service->getCar();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($service);
-            $em->flush();
+        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser()) {
+            $form = $this->createDeleteForm($service);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($service);
+                $em->flush();
+            }
+
+            return $this->redirectToRoute('service_index');
+        } else {
+            return $this->redirectToRoute('history_default_index');
         }
-
-        return $this->redirectToRoute('service_index');
     }
 
     /**
