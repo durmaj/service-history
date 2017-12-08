@@ -42,24 +42,29 @@ class CarController extends Controller
      */
     public function newAction(Request $request)
     {
-        $car = new Car();
-        $form = $this->createForm('HistoryBundle\Form\CarType', $car);
-        $form->handleRequest($request);
+        if ($this->isGranted('ROLE_USER')) {
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            //setting the logged in user as car owner
-            $car->setUser($this->getUser());
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($car);
-            $em->flush();
+            $car = new Car();
+            $form = $this->createForm('HistoryBundle\Form\CarType', $car);
+            $form->handleRequest($request);
 
-            return $this->redirectToRoute('car_show', array('id' => $car->getId()));
+            if ($form->isSubmitted() && $form->isValid()) {
+                //setting the logged in user as car owner
+                $car->setUser($this->getUser());
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($car);
+                $em->flush();
+
+                return $this->redirectToRoute('car_show', array('id' => $car->getId()));
+            }
+
+            return $this->render('car/new.html.twig', array(
+                'car' => $car,
+                'form' => $form->createView(),
+            ));
+        } else {
+            return $this->redirectToRoute('history_default_index');
         }
-
-        return $this->render('car/new.html.twig', array(
-            'car' => $car,
-            'form' => $form->createView(),
-        ));
     }
 
     /**
@@ -70,12 +75,20 @@ class CarController extends Controller
      */
     public function showAction(Car $car)
     {
-        $deleteForm = $this->createDeleteForm($car);
 
-        return $this->render('car/show.html.twig', array(
-            'car' => $car,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser()) {
+
+
+            $deleteForm = $this->createDeleteForm($car);
+
+            return $this->render('car/show.html.twig', array(
+                'car' => $car,
+                'delete_form' => $deleteForm->createView(),
+            ));
+
+        }else {
+            return $this->redirectToRoute('history_default_index');
+        }
     }
 
     /**
@@ -86,21 +99,27 @@ class CarController extends Controller
      */
     public function editAction(Request $request, Car $car)
     {
-        $deleteForm = $this->createDeleteForm($car);
-        $editForm = $this->createForm('HistoryBundle\Form\CarType', $car);
-        $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser()) {
 
-            return $this->redirectToRoute('car_edit', array('id' => $car->getId()));
+            $deleteForm = $this->createDeleteForm($car);
+            $editForm = $this->createForm('HistoryBundle\Form\CarType', $car);
+            $editForm->handleRequest($request);
+
+            if ($editForm->isSubmitted() && $editForm->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+
+                return $this->redirectToRoute('car_edit', array('id' => $car->getId()));
+            }
+
+            return $this->render('car/edit.html.twig', array(
+                'car' => $car,
+                'edit_form' => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),
+            ));
+        } else {
+            return $this->redirectToRoute('history_default_index');
         }
-
-        return $this->render('car/edit.html.twig', array(
-            'car' => $car,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
     }
 
     /**
@@ -111,16 +130,22 @@ class CarController extends Controller
      */
     public function deleteAction(Request $request, Car $car)
     {
-        $form = $this->createDeleteForm($car);
-        $form->handleRequest($request);
+        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser()) {
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($car);
-            $em->flush();
+            $form = $this->createDeleteForm($car);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($car);
+                $em->flush();
+            }
+
+            return $this->redirectToRoute('car_index');
+
+        }else {
+            return $this->redirectToRoute('history_default_index');
         }
-
-        return $this->redirectToRoute('car_index');
     }
 
     /**

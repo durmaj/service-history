@@ -12,6 +12,14 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('HistoryBundle:Default:index.html.twig');
+        if ($this->isGranted('ROLE_USER')) {
+
+            return $this->redirectToRoute('car_index');
+
+        } else {
+            return $this->redirectToRoute('fos_user_security_login');
+
+        }
+
     }
 }

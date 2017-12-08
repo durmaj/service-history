@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use HistoryBundle\Form\CommentType;
 use HistoryBundle\Entity\Comment;
 use HistoryBundle\Controller\CommentController;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Service controller.
@@ -26,28 +27,33 @@ class ServiceController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $services = $em->getRepository('HistoryBundle:Service')->findAll();
-
-
-        //new comment form
-        $newComment = new Comment();
-        $commentForm = $this->createForm('HistoryBundle\Form\CommentType', $newComment)->add('service');
-        $commentForm->handleRequest($request);
-
-        if ($commentForm->isSubmitted()) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($newComment);
-            $em->flush();
 
-            return $this->redirectToRoute('service_index');
+            $services = $em->getRepository('HistoryBundle:Service')->findAll();
+
+
+            //new comment form
+            $newComment = new Comment();
+            $commentForm = $this->createForm('HistoryBundle\Form\CommentType', $newComment)->add('service');
+            $commentForm->handleRequest($request);
+
+            if ($commentForm->isSubmitted()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($newComment);
+                $em->flush();
+
+                return $this->redirectToRoute('service_index');
+            }
+
+
+            return $this->render('service/index.html.twig', array(
+                'services' => $services, 'commentForm' => $commentForm->createView()
+            ));
+
+        } else {
+            return $this->redirectToRoute('car_index');
         }
-
-
-        return $this->render('service/index.html.twig', array(
-            'services' => $services, 'commentForm' => $commentForm->createView()
-        ));
     }
 
     /**
@@ -59,28 +65,35 @@ class ServiceController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $services = $em->getRepository('HistoryBundle:Service')->findByCar($id);
+        $car = $em->getRepository('HistoryBundle:Car')->findOneById($id);
 
 
-        //new comment form
-        $newComment = new Comment();
-        $commentForm = $this->createForm('HistoryBundle\Form\CommentType', $newComment)->add('service');
-        $commentForm->handleRequest($request);
+        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser()) {
 
-        if ($commentForm->isSubmitted()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($newComment);
-            $em->flush();
+            $services = $em->getRepository('HistoryBundle:Service')->findByCar($id);
 
-            return $this->redirectToRoute('service_car');
+            //new comment form
+            $newComment = new Comment();
+            $commentForm = $this->createForm('HistoryBundle\Form\CommentType', $newComment)->add('service');
+            $commentForm->handleRequest($request);
+
+            if ($commentForm->isSubmitted()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($newComment);
+                $em->flush();
+
+                return $this->redirectToRoute('service_car');
+            }
+
+
+            return $this->render('service/services_for_car.html.twig', array(
+                'services' => $services,
+                'commentForm' => $commentForm->createView(),
+                'car' => $id
+            ));
+        }else {
+            return $this->redirectToRoute('history_default_index');
         }
-
-
-        return $this->render('service/services_for_car.html.twig', array(
-            'services' => $services,
-            'commentForm' => $commentForm->createView(),
-            'car' => $id
-        ));
     }
 
 
