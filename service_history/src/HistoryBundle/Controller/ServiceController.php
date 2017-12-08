@@ -12,6 +12,7 @@ use HistoryBundle\Form\CommentType;
 use HistoryBundle\Entity\Comment;
 use HistoryBundle\Controller\CommentController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 
 /**
  * Service controller.
@@ -59,9 +60,9 @@ class ServiceController extends Controller
     /**
      * Lists all service entities for a single car.
      *
-     * @Route("/car/{id}", name="service_car")
+     * @Route("/car/{id}/{pdf}", defaults={"pdf": 0}, name="service_car")
      */
-    public function servicesForOneCar(Request $request, $id)
+    public function servicesForOneCar(Request $request, $id, $pdf)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -86,11 +87,27 @@ class ServiceController extends Controller
             }
 
 
-            return $this->render('service/services_for_car.html.twig', array(
+            if ($pdf == 0){
+                return
+                $this->render('service/services_for_car.html.twig', array(
                 'services' => $services,
                 'commentForm' => $commentForm->createView(),
                 'car' => $id
-            ));
+            ));} elseif ($pdf ==1) {
+                $html = $this->render('service/services_for_car.html.twig', array(
+                    'services' => $services,
+                    'commentForm' => $commentForm->createView(),
+                    'car' => $id
+                ));
+
+                return new PdfResponse(
+                    $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+                    'file.pdf'
+                );
+
+            }
+
+
         }else {
             return $this->redirectToRoute('history_default_index');
         }
@@ -247,4 +264,6 @@ class ServiceController extends Controller
             ->getForm()
         ;
     }
+
+
 }

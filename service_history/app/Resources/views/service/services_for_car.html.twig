@@ -37,12 +37,12 @@
 
     {% endif %}
 
-    <ul>
-        <li>
-            <a href="{{ path('service_new', {'id': car }) }}">Create a new service</a>
-        </li>
-        <li>
-            <a href="{{ path('car_index') }}">Back to cars list</a>
-        </li>
-    </ul>
+    <a href="{{ path('service_new', {'id': car }) }}" class="btn btn-info">Create a new service</a>
+    <br>
+    <br>
+    <a href="{{ path('service_car', {'id': car, 'pdf': 1 }) }}" class="btn btn-success">Generate a PDF</a>
+    <br>
+    <br>
+    <a href="{{ path('car_index') }}">Back to cars list</a>
+
 {% endblock %}
