@@ -26,12 +26,12 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="uservin", type="string", length=20, unique=true)
+     * @ORM\Column(name="token", type="string", length=20, unique=true)
      *
-     * @Assert\NotBlank(message="Please enter your vin.", groups={"Registration", "Profile"})
+     * @Assert\NotBlank(message="Please enter your token.", groups={"Registration", "Profile"})
      *
      */
-    private $uservin;
+    private $token;
 
 
     public function __construct()
@@ -53,17 +53,17 @@ class User extends BaseUser
     /**
      * @return string
      */
-    public function getUservin()
+    public function getToken()
     {
-        return $this->uservin;
+        return $this->token;
     }
 
     /**
-     * @param string $uservin
+     * @param string $token
      */
-    public function setUservin($uservin)
+    public function setToken($token)
     {
-        $this->uservin = $uservin;
+        $this->token = $token;
     }
 
 }
