@@ -15,6 +15,31 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
  */
 class CarController extends Controller
 {
+
+    /**
+     * Lists all car entities for user.
+     *
+     * @Route("/cars", name="car_index_all")
+     * @Method("GET")
+     */
+    public function indexAllAction()
+    {
+        if ($this->isGranted('ROLE_ADMIN')) {
+
+            $em = $this->getDoctrine()->getManager();
+
+
+            $cars = $em->getRepository('HistoryBundle:Car')->findAll();
+
+            return $this->render('car/index_admin.html.twig', array(
+                'cars' => $cars,
+            ));
+        } else {
+            return $this->redirectToRoute('history_default_index');
+        }
+    }
+
+
     /**
      * Lists all car entities for user.
      *

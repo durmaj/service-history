@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Your cars</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Regplate</th>
+                <th>Vin</th>
+                <th>Service history</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for car in cars %}
+            <tr>
+                <td>{{ car.user }}</td>
+                <td>{{ car.brand }}</td>
+                <td><a href="{{ path('car_show', { 'id': car.id }) }}">{{ car.model }}</a></td>
+                <td>{{ car.regPlate }}</td>
+                <td>{{ car.vin }}</td>
+                <td><a href="{{ path('service_car', { 'id': car.id }) }}">Show</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    <a href="{{ path('car_new') }}" class="btn btn-info" role="button">Add a new car</a>
+
+{% endblock %}
