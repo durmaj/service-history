@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new HistoryBundle\HistoryBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
+            new JavierEguiluz\Bundle\EasyAdminBundle\EasyAdminBundle(),
 
         ];
 

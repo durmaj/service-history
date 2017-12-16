@@ -25,6 +25,12 @@
     {{ form_end(form) }}
 
     <br>
-            <a href="{{ path('car_index') }}">Back to the list</a>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('car_index_all') }}">Back to the list</a>
+    {% else %}
+        <a href="{{ path('car_index') }}">Back to the list</a>
+    {% endif %}
+
 
 {% endblock %}
