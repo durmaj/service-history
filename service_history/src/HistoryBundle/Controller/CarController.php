@@ -19,7 +19,7 @@ class CarController extends Controller
     /**
      * Lists all car entities for user.
      *
-     * @Route("/cars", name="car_index_all")
+     * @Route("/all", name="car_index_all")
      * @Method("GET")
      */
     public function indexAllAction()
@@ -106,7 +106,7 @@ class CarController extends Controller
     public function showAction(Car $car)
     {
 
-        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser()) {
+        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser() || $this->isGranted('ROLE_ADMIN')) {
 
             $deleteForm = $this->createDeleteForm($car);
 
@@ -128,7 +128,7 @@ class CarController extends Controller
      */
     public function editAction(Request $request, Car $car)
     {
-        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser()) {
+        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser() || $this->isGranted('ROLE_ADMIN')) {
 
             $deleteForm = $this->createDeleteForm($car);
             $editForm = $this->createForm('HistoryBundle\Form\CarType', $car);
@@ -158,7 +158,7 @@ class CarController extends Controller
      */
     public function deleteAction(Request $request, Car $car)
     {
-        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser()) {
+        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser() || $this->isGranted('ROLE_ADMIN')) {
 
             $form = $this->createDeleteForm($car);
             $form->handleRequest($request);

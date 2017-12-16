@@ -35,7 +35,7 @@
                     <li><a href="{{ path('fos_user_profile_edit') }}">Profile</a></li>
                 {% if is_granted('ROLE_ADMIN') %}
                     <li><a href="{{ path('fos_user_profile_edit') }}">Users</a></li>
-                    <li><a href="{{ path('fos_user_profile_edit') }}">Cars</a></li>
+                    <li><a href="{{ path('car_index_all') }}">Cars</a></li>
                     <li><a href="{{ path('fos_user_profile_edit') }}">Services</a></li>
                 {% endif %}
                     <li><a href="/logout">Logout</a></li>

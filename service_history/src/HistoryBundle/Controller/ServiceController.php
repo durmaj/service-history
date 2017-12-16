@@ -69,7 +69,7 @@ class ServiceController extends Controller
         $car = $em->getRepository('HistoryBundle:Car')->findOneById($id);
 
 
-        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser()) {
+        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser() || $this->isGranted('ROLE_ADMIN')) {
 
             $services = $em->getRepository('HistoryBundle:Service')->findByCar($id);
 
@@ -161,7 +161,7 @@ class ServiceController extends Controller
 
         $car = $service->getCar();
 
-        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser()) {
+        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser() || $this->isGranted('ROLE_ADMIN')) {
 
             $deleteForm = $this->createDeleteForm($service);
 
@@ -200,7 +200,7 @@ class ServiceController extends Controller
     {
         $car = $service->getCar();
 
-        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser()) {
+        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser() || $this->isGranted('ROLE_ADMIN')) {
 
             $deleteForm = $this->createDeleteForm($service);
 
@@ -233,7 +233,7 @@ class ServiceController extends Controller
     {
         $car = $service->getCar();
 
-        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser()) {
+        if ($user = $this->get('security.token_storage')->getToken()->getUser() == $car->getUser() || $this->isGranted('ROLE_ADMIN')) {
             $form = $this->createDeleteForm($service);
             $form->handleRequest($request);
 
