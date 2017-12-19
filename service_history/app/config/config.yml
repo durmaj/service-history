@@ -99,3 +99,13 @@ easy_admin:
                    - lastLogin
                    - { property: 'plainPassword', type: 'text', type_options: { required: false } }
                    - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
+       Car:
+          class: HistoryBundle\Entity\Car
+          list:
+              fields:
+                  - id
+                  - user
+                  - vin
+                  - brand
+                  - model
+                  - regPlate
