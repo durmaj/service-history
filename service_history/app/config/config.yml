@@ -81,4 +81,21 @@ fos_user:
             type: HistoryBundle\Form\RegistrationType
 
 
-
+easy_admin:
+   entities:
+       User:
+           class: HistoryBundle\Entity\User
+           list:
+               fields:
+                   - id
+                   - username
+                   - email
+           form:
+               fields:
+                   - username
+                   - email
+                   - roles
+                   - enabled
+                   - lastLogin
+                   - { property: 'plainPassword', type: 'text', type_options: { required: false } }
+                   - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
