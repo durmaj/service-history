@@ -82,6 +82,7 @@ fos_user:
 
 
 easy_admin:
+   site_name: 'Service admin'
    entities:
        User:
            class: HistoryBundle\Entity\User
@@ -95,6 +96,7 @@ easy_admin:
                    - username
                    - email
                    - roles
+                   - token
                    - enabled
                    - lastLogin
                    - { property: 'plainPassword', type: 'text', type_options: { required: false } }
